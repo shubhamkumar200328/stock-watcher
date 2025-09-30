@@ -7,7 +7,7 @@ import UserDropdown from './UserDropdown';
 
 function Header() {
   return (
-    <header className="sticky top-0 bg-green-800">
+    <header className="sticky top-0 bg-green-800 z-10">
       <div className="container header-wrapper">
         <Link
           href="/"
