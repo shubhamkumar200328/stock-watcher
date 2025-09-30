@@ -14,34 +14,34 @@ declare global {
     preferredIndustry: string;
   };
 
-import type {
-  Control,
-  FieldError,
-  RegisterOptions,
-  UseFormRegister,
-} from "react-hook-form"
+  import type {
+    Control,
+    FieldError,
+    RegisterOptions,
+    UseFormRegister,
+  } from 'react-hook-form';
 
-declare global {
-  type CountrySelectProps = {
-    name: string;
-    label: string;
-    control: Control;
-    error?: FieldError;
-    required?: boolean;
-  };
+  declare global {
+    type CountrySelectProps = {
+      name: string;
+      label: string;
+      control: Control;
+      error?: FieldError;
+      required?: boolean;
+    };
 
-  type FormInputProps = {
-    name: string;
-    label: string;
-    placeholder: string;
-    type?: string;
-    register: UseFormRegister;
-    error?: FieldError;
-    validation?: RegisterOptions;
-    disabled?: boolean;
-    value?: string;
-  };
-}
+    type FormInputProps = {
+      name: string;
+      label: string;
+      placeholder: string;
+      type?: string;
+      register: UseFormRegister;
+      error?: FieldError;
+      validation?: RegisterOptions;
+      disabled?: boolean;
+      value?: string;
+    };
+  }
 
   type Option = {
     value: string;
