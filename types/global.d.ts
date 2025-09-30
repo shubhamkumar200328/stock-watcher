@@ -14,12 +14,35 @@ declare global {
     preferredIndustry: string;
   };
 
-  import type {
-    Control,
-    FieldError,
-    RegisterOptions,
-    UseFormRegister,
-  } from 'react-hook-form';
+// Move this to the top of types/global.d.ts
+import type {
+  Control,
+  FieldError,
+  RegisterOptions,
+  UseFormRegister,
+  FieldValues,
+} from 'react-hook-form';
+
+declare global {
+  // ...your existing global declarations here...
+  // (the import inside this block has been removed)
+
+  interface CountrySelectProps<FormValues extends FieldValues = FieldValues> {
+    name: string;
+    control: Control<FormValues>;
+    rules?: RegisterOptions<FormValues, string>;
+    error?: FieldError;
+  }
+
+  interface FormInputProps<FormValues extends FieldValues = FieldValues> {
+    register: UseFormRegister<FormValues>;
+    name: string;
+    rules?: RegisterOptions<FormValues, string>;
+    error?: FieldError;
+  }
+}
+
+export {};
 
   declare global {
     type CountrySelectProps<T extends FieldValues = FieldValues> = {
