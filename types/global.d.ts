@@ -23,26 +23,24 @@ declare global {
     FieldValues,
   } from 'react-hook-form';
 
-  declare global {
-    // ...your existing global declarations here...
-    // (the import inside this block has been removed)
-
-    interface CountrySelectProps<FormValues extends FieldValues = FieldValues> {
-      name: string;
-      control: Control<FormValues>;
-      rules?: RegisterOptions<FormValues, string>;
-      error?: FieldError;
-    }
-
-    interface FormInputProps<FormValues extends FieldValues = FieldValues> {
-      register: UseFormRegister<FormValues>;
-      name: string;
-      rules?: RegisterOptions<FormValues, string>;
-      error?: FieldError;
-    }
-  }
-
-  export {};
+  type CountrySelectProps<T extends FieldValues = FieldValues> = {
+    name: string;
+    label: string;
+    control: Control<T>;
+    error?: FieldError;
+    required?: boolean;
+  };
+  type FormInputProps<T extends FieldValues = FieldValues> = {
+    name: string;
+    label: string;
+    placeholder: string;
+    type?: string;
+    register: UseFormRegister<T>;
+    error?: FieldError;
+    validation?: RegisterOptions<T>;
+    disabled?: boolean;
+    value?: string;
+  };
 
   declare global {
     type CountrySelectProps<T extends FieldValues = FieldValues> = {
