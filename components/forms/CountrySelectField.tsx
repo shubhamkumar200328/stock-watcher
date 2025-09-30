@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Control, Controller, FieldError } from 'react-hook-form';
 import {
   Popover,
@@ -39,8 +39,10 @@ const CountrySelect = ({
 }) => {
   const [open, setOpen] = useState(false);
 
+  const countries = useMemo(() => countryList().getData(), []);
+
   // Get country options with flags
-  const countries = countryList().getData();
+  //const countries = countryList().getData();
 
   // Helper function to get flag emoji
   const getFlagEmoji = (countryCode: string) => {
