@@ -22,22 +22,22 @@ declare global {
   } from 'react-hook-form';
 
   declare global {
-    type CountrySelectProps = {
+    type CountrySelectProps<T extends FieldValues = FieldValues> = {
       name: string;
       label: string;
-      control: Control;
+      control: Control<T>;
       error?: FieldError;
       required?: boolean;
     };
 
-    type FormInputProps = {
+    type FormInputProps<T extends FieldValues = FieldValues> = {
       name: string;
       label: string;
       placeholder: string;
       type?: string;
-      register: UseFormRegister;
+      register: UseFormRegister<T>;
       error?: FieldError;
-      validation?: RegisterOptions;
+      validation?: RegisterOptions<T>;
       disabled?: boolean;
       value?: string;
     };
