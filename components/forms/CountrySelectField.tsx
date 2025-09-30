@@ -31,11 +31,9 @@ type CountrySelectProps = {
 };
 
 const CountrySelect = ({
-  id,
   value,
   onChange,
 }: {
-  id: string;
   value: string;
   onChange: (value: string) => void;
 }) => {
@@ -60,7 +58,6 @@ const CountrySelect = ({
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          id={id}
           className="country-select-trigger"
         >
           {value ? (
@@ -78,33 +75,44 @@ const CountrySelect = ({
         className="w-full p-0 bg-gray-800 border-gray-600"
         align="start"
       >
-        <Command>
-          <CommandInput placeholder="Search countries..." />
-          <CommandList>
-            <CommandEmpty>No country found.</CommandEmpty>
-            <CommandGroup>
+        <Command className="bg-gray-800 border-gray-600">
+          <CommandInput
+            placeholder="Search countries..."
+            className="country-select-input"
+          />
+          <CommandEmpty className="country-select-empty">
+            No country found.
+          </CommandEmpty>
+          <CommandList className="max-h-60 bg-gray-800 scrollbar-hide-default">
+            <CommandGroup className="bg-gray-800">
               {countries.map((country) => (
                 <CommandItem
                   key={country.value}
-                  value={country.value}
-                  onSelect={(currentValue) => {
-                    onChange(currentValue);
+                  value={`${country.label} ${country.value}`}
+                  onSelect={() => {
+                    onChange(country.value);
                     setOpen(false);
                   }}
+                  className="country-select-item"
                 >
+                  <Check
+                    className={cn(
+                      'mr-2 h-4 w-4 text-yellow-500',
+                      value === country.value ? 'opacity-100' : 'opacity-0',
+                    )}
+                  />
                   <span className="flex items-center gap-2">
                     <span>{getFlagEmoji(country.value)}</span>
                     <span>{country.label}</span>
                   </span>
-                  {country.value === value ? (
-                    <Check className="ml-auto h-4 w-4" />
-                  ) : null}
                 </CommandItem>
               ))}
             </CommandGroup>
           </CommandList>
         </Command>
       </PopoverContent>
+    </Popover>
+  );
 };
 
 export const CountrySelectField = ({
@@ -126,17 +134,8 @@ export const CountrySelectField = ({
           required: required ? `Please select ${label.toLowerCase()}` : false,
         }}
         render={({ field }) => (
-          <CountrySelect
-            id={field.name}
-            value={field.value}
-            onChange={field.onChange}
-          />
+          <CountrySelect value={field.value} onChange={field.onChange} />
         )}
-      />
-      {/* ...error display, etc. */}
-    </div>
-  );
-};
       />
       {error && <p className="text-sm text-red-500">{error.message}</p>}
       <p className="text-xs text-gray-500">

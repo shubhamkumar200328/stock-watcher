@@ -14,31 +14,57 @@ declare global {
     preferredIndustry: string;
   };
 
+  // Move this to the top of types/global.d.ts
   import type {
     Control,
     FieldError,
     RegisterOptions,
     UseFormRegister,
+    FieldValues,
   } from 'react-hook-form';
 
-  type CountrySelectProps<T extends FieldValues = FieldValues> = {
-    name: string;
-    label: string;
-    control: Control<T>;
-    error?: FieldError;
-    required?: boolean;
-  };
-  type FormInputProps<T extends FieldValues = FieldValues> = {
-    name: string;
-    label: string;
-    placeholder: string;
-    type?: string;
-    register: UseFormRegister<T>;
-    error?: FieldError;
-    validation?: RegisterOptions<T>;
-    disabled?: boolean;
-    value?: string;
-  };
+  declare global {
+    // ...your existing global declarations here...
+    // (the import inside this block has been removed)
+
+    interface CountrySelectProps<FormValues extends FieldValues = FieldValues> {
+      name: string;
+      control: Control<FormValues>;
+      rules?: RegisterOptions<FormValues, string>;
+      error?: FieldError;
+    }
+
+    interface FormInputProps<FormValues extends FieldValues = FieldValues> {
+      register: UseFormRegister<FormValues>;
+      name: string;
+      rules?: RegisterOptions<FormValues, string>;
+      error?: FieldError;
+    }
+  }
+
+  export {};
+
+  declare global {
+    type CountrySelectProps<T extends FieldValues = FieldValues> = {
+      name: string;
+      label: string;
+      control: Control<T>;
+      error?: FieldError;
+      required?: boolean;
+    };
+
+    type FormInputProps<T extends FieldValues = FieldValues> = {
+      name: string;
+      label: string;
+      placeholder: string;
+      type?: string;
+      register: UseFormRegister<T>;
+      error?: FieldError;
+      validation?: RegisterOptions<T>;
+      disabled?: boolean;
+      value?: string;
+    };
+  }
 
   type Option = {
     value: string;
