@@ -12,24 +12,32 @@ const InputField = ({
   error,
   validation,
   disabled,
-  value,
-}: FormInputProps) => {
-  return (
-    <div className="space-y-2">
-      <Label htmlFor={name} className="form-label">
-        {label}
-      </Label>
-      <Input
-        type={type}
-        id={name}
-        placeholder={placeholder}
-        disabled={disabled}
-        value={value}
-        className={cn('form-input', {
-          'opacity-50 cursor-not-allowed': disabled,
-        })}
-        {...register(name, validation)}
-      />
+  // components/forms/InputField.tsx
+  const InputField = ({
+    name,
+    label,
+    type,
+    placeholder,
+    disabled,
+  }: FormInputProps) => {
+    return (
+      <div className="space-y-2">
+        <Label htmlFor={name} className="form-label">
+          {label}
+        </Label>
+        <Input
+          type={type}
+          id={name}
+          placeholder={placeholder}
+          disabled={disabled}
+          className={cn('form-input', {
+            'opacity-50 cursor-not-allowed': disabled,
+          })}
+          {...register(name, validation)}
+        />
+      </div>
+    )
+  }
       {error && <p className="text-sm text-red-500">{error.message}</p>}
     </div>
   );
