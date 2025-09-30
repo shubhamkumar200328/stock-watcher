@@ -14,6 +14,14 @@ declare global {
     preferredIndustry: string;
   };
 
+import type {
+  Control,
+  FieldError,
+  RegisterOptions,
+  UseFormRegister,
+} from "react-hook-form"
+
+declare global {
   type CountrySelectProps = {
     name: string;
     label: string;
@@ -33,6 +41,7 @@ declare global {
     disabled?: boolean;
     value?: string;
   };
+}
 
   type Option = {
     value: string;
