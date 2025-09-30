@@ -78,10 +78,33 @@ const CountrySelect = ({
         className="w-full p-0 bg-gray-800 border-gray-600"
         align="start"
       >
-        {/* ...rest of popover content... */}
+        <Command>
+          <CommandInput placeholder="Search countries..." />
+          <CommandList>
+            <CommandEmpty>No country found.</CommandEmpty>
+            <CommandGroup>
+              {countries.map((country) => (
+                <CommandItem
+                  key={country.value}
+                  value={country.value}
+                  onSelect={(currentValue) => {
+                    onChange(currentValue);
+                    setOpen(false);
+                  }}
+                >
+                  <span className="flex items-center gap-2">
+                    <span>{getFlagEmoji(country.value)}</span>
+                    <span>{country.label}</span>
+                  </span>
+                  {country.value === value ? (
+                    <Check className="ml-auto h-4 w-4" />
+                  ) : null}
+                </CommandItem>
+              ))}
+            </CommandGroup>
+          </CommandList>
+        </Command>
       </PopoverContent>
-    </Popover>
-  );
 };
 
 export const CountrySelectField = ({
