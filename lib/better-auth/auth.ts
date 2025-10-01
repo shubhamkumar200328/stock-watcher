@@ -14,9 +14,20 @@ export const getAuth = async () => {
   if (!db) throw new Error('MongoDB connection not found');
 
   authInstance = betterAuth({
-    database: mongodbAdapter(db as any),
-    secret: process.env.BETTER_AUTH_SECRET,
-    baseURL: process.env.BETTER_AUTH_URL,
+const db = mongoose.connection.db;
+
+if (!db) throw new Error('MongoDB connection not found');
+if (!process.env.BETTER_AUTH_SECRET)
+  throw new Error('BETTER_AUTH_SECRET must be set in environment');
+if (!process.env.BETTER_AUTH_URL)
+  throw new Error('BETTER_AUTH_URL must be set in environment');
+
+authInstance = betterAuth({
+  database: mongodbAdapter(db),
+  secret: process.env.BETTER_AUTH_SECRET,
+  baseURL: process.env.BETTER_AUTH_URL,
+  // …other configuration options
+});
     emailAndPassword: {
       enabled: true,
       disableSignUp: false,
