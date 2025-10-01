@@ -116,13 +116,9 @@ export const formatPrice = (price: number) => {
   }).format(price);
 };
 
-export const formatDateToday = new Date().toLocaleDateString('en-US', {
-  weekday: 'long',
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-  timeZone: 'UTC',
-});
+// lib/utils.ts (lines 119–125)
+
+// Use getFormattedTodayDate() instead for dynamic date
 
 export const getAlertText = (alert: Alert) => {
   const condition = alert.alertType === 'upper' ? '>' : '<';
