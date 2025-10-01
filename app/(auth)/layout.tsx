@@ -2,8 +2,15 @@ import Link from 'next/link';
 import Image from 'next/image';
 import logo from '@/public/assets/images/swLogo.png';
 import dashboard_ss from '@/public/assets/images/dasboard_ss.png';
+import { auth } from '@/lib/better-auth/auth';
+import { headers } from 'next/headers';
+import { redirect } from 'next/navigation';
 
-const Layout = ({ children }: { children: React.ReactNode }) => {
+const Layout = async ({ children }: { children: React.ReactNode }) => {
+  const session = await auth.api.getSession({ headers: await headers() });
+
+  if (session?.user) redirect('/');
+
   return (
     <main className="auth-layout">
       <section className="auth-left-section scrollbar-hide-default">
@@ -29,13 +36,16 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       <section className="auth-right-section">
         <div className="z-10 relative lg:mt-4 lg:mb-16">
           <blockquote className="auth-blockquote">
-            Signalist turned my watchlist into a winning list. The alerts are
-            spot-on, and I feel more confident making moves in the market
+            stock-watcher help me to transformed my watchlist into a winning
+            list. The alerts give me continuous updates, and I feel more
+            confident making moves in the market
           </blockquote>
           <div className="flex items-center justify-between">
             <div>
-              <cite className="auth-testimonial-author">- Ethan R.</cite>
-              <p className="max-md:text-xs text-gray-500">Retail Investor</p>
+              <cite className="auth-testimonial-author">- Tony Stark</cite>
+              <p className="max-md:text-xs text-gray-500">
+                Domestic Institutional Investor
+              </p>
             </div>
             <div className="flex items-center gap-0.5">
               {[1, 2, 3, 4, 5].map((star) => (
@@ -65,4 +75,3 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     </main>
   );
 };
-export default Layout;
