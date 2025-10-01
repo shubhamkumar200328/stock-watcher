@@ -1,9 +1,5 @@
 'use client';
 
-import { useCallback, useRef } from 'react';
-
-'use client';
-
 import { useCallback, useEffect, useRef } from 'react';
 
 export function useDebounce(callback: () => void, delay: number) {
