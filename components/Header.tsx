@@ -1,11 +1,13 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
-import logo from '@/public/assets/images/swLogo.png';
+import swLogo from '@/public/assets/images/swLogo.png';
 import NavItems from './NavItems';
 import UserDropdown from './UserDropdown';
+import { searchStocks } from '@/lib/actions/finnhub.actions';
 
-function Header() {
+const Header = async ({ user }: { user: User }) => {
+  const initialStocks = await searchStocks();
+
   return (
     <header className="sticky top-0 bg-green-800 z-10">
       <div className="container header-wrapper">
@@ -14,7 +16,7 @@ function Header() {
           className=" text-black flex justify-center items-center "
         >
           <Image
-            src={logo}
+            src={swLogo}
             alt="stock-watcher logo"
             width={140}
             height={50}
@@ -25,12 +27,13 @@ function Header() {
           </span>
         </Link>
         <nav className="hidden sm:block">
-          <NavItems />
+          <NavItems initialStocks={initialStocks} />
         </nav>
-        <UserDropdown />
+
+        <UserDropdown user={user} initialStocks={initialStocks} />
       </div>
     </header>
   );
-}
+};
 
 export default Header;
