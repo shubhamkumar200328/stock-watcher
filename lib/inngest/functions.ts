@@ -75,15 +75,37 @@ export const sendDailyNewsSummary = inngest.createFunction(
       }> = [];
       for (const user of users as UserForNewsEmail[]) {
         try {
-          const symbols = await getWatchlistSymbolsByEmail(user.email);
-          let articles = await getNews(symbols);
-          // Enforce max 6 articles per user
-          articles = (articles || []).slice(0, 6);
-          // If still empty, fallback to general
-          if (!articles || articles.length === 0) {
-            articles = await getNews();
-            articles = (articles || []).slice(0, 6);
-          }
+// Memoize general news so we only hit Finnhub's general endpoint once per run
+let generalNews: MarketNewsArticle[] | null = null;
+const loadGeneralNews = async (): Promise<MarketNewsArticle[] | null> => {
+  if (!generalNews) {
+    generalNews = await getNews();
+  }
+  return generalNews;
+};
+
+for (const user of users as UserForNewsEmail[]) {
+  try {
+    const symbols = await getWatchlistSymbolsByEmail(user.email);
+    // If the user has symbols, fetch their news; otherwise reuse general news
+    let articles =
+      symbols.length > 0
+        ? await getNews(symbols)
+        : await loadGeneralNews();
+
+    // Enforce max 6 articles per user
+    articles = (articles || []).slice(0, 6);
+
+    // If still empty, fallback to the memoized general news
+    if (!articles || articles.length === 0) {
+      articles = (await loadGeneralNews()).slice(0, 6);
+    }
+
+    // …rest of per-user processing…
+  } catch (err) {
+    // …error handling…
+  }
+}
           perUser.push({ user, articles });
         } catch (e) {
           console.error('daily-news: error preparing user news', user.email, e);
