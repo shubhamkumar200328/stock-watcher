@@ -19,17 +19,21 @@ export const signUpWithEmail = async ({
     });
 
     if (response) {
-      await inngest.send({
-        name: 'app/user.created',
-        data: {
-          email,
-          name: fullName,
-          country,
-          investmentGoals,
-          riskTolerance,
-          preferredIndustry,
-        },
-      });
+      try {
+        await inngest.send({
+          name: 'app/user.created',
+          data: {
+            email,
+            name: fullName,
+            country,
+            investmentGoals,
+            riskTolerance,
+            preferredIndustry,
+          },
+        });
+      } catch (err) {
+        console.error('Failed to enqueue user.created event', err);
+      }
     }
 
     return { success: true, data: response };
