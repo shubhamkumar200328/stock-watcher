@@ -18,14 +18,13 @@ export default function SearchCommand({
   label = 'Add stock',
   initialStocks,
 }: SearchCommandProps) {
-  const [open, setOpen] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [stocks, setStocks] =
-    useState<StockWithWatchlistStatus[]>(initialStocks);
-
-  const isSearchMode = !!searchTerm.trim();
   const displayStocks = isSearchMode ? stocks : stocks?.slice(0, 10);
+
+  useEffect(() => {
+    if (!isSearchMode) {
+      setStocks(initialStocks);
+    }
+  }, [initialStocks, isSearchMode]);
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
@@ -37,33 +36,6 @@ export default function SearchCommand({
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
   }, []);
-
-  const handleSearch = async () => {
-    if (!isSearchMode) return setStocks(initialStocks);
-
-    setLoading(true);
-    try {
-      const results = await searchStocks(searchTerm.trim());
-      setStocks(results);
-    } catch {
-      setStocks([]);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const debouncedSearch = useDebounce(handleSearch, 300);
-
-  useEffect(() => {
-    debouncedSearch();
-  }, [searchTerm]);
-
-  const handleSelectStock = () => {
-    setOpen(false);
-    setSearchTerm('');
-    setStocks(initialStocks);
-  };
-
   return (
     <>
       {renderAs === 'text' ? (
