@@ -4,9 +4,12 @@ import {
   PERSONALIZED_WELCOME_EMAIL_PROMPT,
 } from '@/lib/inngest/prompts';
 import { sendNewsSummaryEmail, sendWelcomeEmail } from '@/lib/nodemailer';
-import { getAllUsersForNewsEmail } from '@/lib/actions/user.actions';
+import {
+  getAllUsersForNewsEmail,
+  type UserForNewsEmail,
+} from '@/lib/actions/user.actions';
 import { getWatchlistSymbolsByEmail } from '@/lib/actions/watchlist.actions';
-import { getNews } from '@/lib/actions/finnhub.actions';
+import { getNews, type MarketNewsArticle } from '@/lib/actions/finnhub.actions';
 import { getFormattedTodayDate } from '@/lib/utils';
 
 export const sendSignUpEmail = inngest.createFunction(
@@ -106,12 +109,15 @@ export const sendDailyNewsSummary = inngest.createFunction(
           JSON.stringify(articles, null, 2),
         );
 
-        const response = await step.ai.infer(`summarize-news-${user.email}`, {
-          model: step.ai.models.gemini({ model: 'gemini-2.5-flash-lite' }),
-          body: {
-            contents: [{ role: 'user', parts: [{ text: prompt }] }],
+        const response = await step.ai.infer(
+          `summarize-news-${(user as UserForNewsEmail).email}`,
+          {
+            model: step.ai.models.gemini({ model: 'gemini-2.5-flash-lite' }),
+            body: {
+              contents: [{ role: 'user', parts: [{ text: prompt }] }],
+            },
           },
-        });
+        );
 
         const part = response.candidates?.[0]?.content?.parts?.[0];
         const newsContent =
@@ -119,7 +125,10 @@ export const sendDailyNewsSummary = inngest.createFunction(
 
         userNewsSummaries.push({ user, newsContent });
       } catch (e) {
-        console.error('Failed to summarize news for : ', user.email);
+        console.error(
+          'Failed to summarize news for : ',
+          (user as UserForNewsEmail)?.email ?? 'unknown',
+        );
         userNewsSummaries.push({ user, newsContent: null });
       }
     }
