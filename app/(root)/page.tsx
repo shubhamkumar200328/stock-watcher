@@ -6,6 +6,8 @@ import {
   TOP_STORIES_WIDGET_CONFIG,
 } from '@/lib/constants';
 
+export const dynamic = 'force-dynamic';
+
 function Home() {
   const scriptUrl = `https://s3.tradingview.com/external-embedding/embed-widget-`;
 
