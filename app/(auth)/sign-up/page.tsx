@@ -1,5 +1,7 @@
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import { useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import InputField from '@/components/forms/InputField';
@@ -15,8 +17,19 @@ import { signUpWithEmail } from '@/lib/actions/auth.actions';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 
+type SignUpFormData = {
+  fullName: string;
+  email: string;
+  password: string;
+  country: string;
+  investmentGoals: string;
+  riskTolerance: string;
+  preferredIndustry: string;
+};
+
 const SignUp = () => {
   const router = useRouter();
+
   const {
     register,
     handleSubmit,
@@ -142,4 +155,5 @@ const SignUp = () => {
     </>
   );
 };
+
 export default SignUp;
