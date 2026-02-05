@@ -4,10 +4,10 @@ import {
   PERSONALIZED_WELCOME_EMAIL_PROMPT,
 } from '@/lib/inngest/prompts';
 import { sendNewsSummaryEmail, sendWelcomeEmail } from '@/lib/nodemailer';
-import {
-  getAllUsersForNewsEmail,
-  type UserForNewsEmail,
-} from '@/lib/actions/user.actions';
+import { getAllUsersForNewsEmail } from '@/lib/actions/user.actions';
+
+import type { UserForNewsEmail } from '@/lib/actions/user.actions';
+
 import { getWatchlistSymbolsByEmail } from '@/lib/actions/watchlist.actions';
 import { getNews, type MarketNewsArticle } from '@/lib/actions/finnhub.actions';
 import { getFormattedTodayDate } from '@/lib/utils';
