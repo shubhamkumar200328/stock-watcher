@@ -8,8 +8,14 @@ import { signInWithEmail } from '@/lib/actions/auth.actions';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 
+type SignInFormData = {
+  email: string;
+  password: string;
+};
+
 const SignIn = () => {
   const router = useRouter();
+
   const {
     register,
     handleSubmit,
@@ -81,4 +87,5 @@ const SignIn = () => {
     </>
   );
 };
+
 export default SignIn;
