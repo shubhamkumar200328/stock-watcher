@@ -1,3 +1,6 @@
+![Project Screenshot](./public/assets/images/stock-water-homePage.png)
+
+
 # 📈 Intelligent Stock Market Platform — Alerts, Analytics & AI Insights
 
 ---
