@@ -8,9 +8,6 @@
 - 🛠 Technology Stack
 - 🚀 Core Features
 - 🏁 Getting Started
-- 🔐 Environment Configuration
-- ▶️ Running Locally
-- 🎥 Learning Resource
 
 ---
 
